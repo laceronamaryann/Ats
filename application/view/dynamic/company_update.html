@@ -8,7 +8,7 @@
 		<tr><td>Enabled</td><td><select name="companyStatus" id="companyStatus"></select></td></tr>
 		<tr><td>Added By</td><td><input name="companyAddedBy" id="companyAddedBy"></select></td></tr>
 
-		<tr><td colspan="2"><div id="companyUpdateButton">Add</div></td></tr>
+		<tr><td colspan="2"><div id="companyUpdateButton">Update</div></td></tr>
 	</table>
 </form>
 
@@ -33,18 +33,16 @@
 	});      
 	$.each(arrayGlobalStatus, function(index,object){
 		$('#companyStatus')
-		.append($("<option></option>")
-			.attr("value", object.Id)
-			.text(object.Name));
+		.append("<option value='"+ object.Id +"'>"+ object.Name +"</option>");
 	});  
 
 	$('[name="companyId"]').val(company.Id);
 	$('[name="companyName"]').val(company.Name);
 	$('[name="companyDescription"]').val(company.Description);
 
-	$('[name="companyBusinessField"] option').val(company.BusinessField);
-	$('[name="companyStatus"] option').val(company.Status);
-
+	$('[name="companyBusinessField"] option').val(company.BusinessField).attr('selected','selected');
+	$('[name="companyStatus"] option[value="'+ company.Status +'"]').attr('selected','selected');
+ 
 
 	$('[name="companyDateTimeCreated"]').val(company.DateTimeCreated);
 	$('[name="companyAddedBy"]').val(getNameUser(company.AddedBy));
@@ -56,20 +54,34 @@
 
 
 	$('#companyUpdateButton').button().click(function() {
-
+		var id = document.getElementsByName('companyId')[0].value;
 		var name = document.getElementsByName('companyName')[0].value;
 		var description = document.getElementsByName('companyDescription')[0].value;
-		var businessField = document.getElementsByName('companyBusinessField')[0].value;
-		var user = JSON.parse(sessionStorage.getItem('user'));
-		var addedBy = user.Id;
 
-		$.post('application/model/set/company.php',{Name:name, Description:description, BusinessField:businessField, AddedBy:addedBy}, function(json){
+		var businessField = $('[name="companyBusinessField"]').find(":selected").val();
+		var status = $('[name="companyStatus"]').find(":selected").val();
+		
+		var modifiedBy = user.Id;
+		//var user = JSON.parse(sessionStorage.getItem('user'));
+	
+
+		$.post('application/model/service/company_update.php', {
+				Id:id,
+				Name:name, 
+				Description:description, 
+				BusinessField:businessField,
+				Status: status,
+				ModifiedBy:modifiedBy
+			}, function(json){
+				
+			
 			var result = json.result[0];
 			if (result.Status == "SUCCESS") {
 				notify(result.Message);
 			} else {
 				notifyError(result.Message);
 			}
+
 		}, 'json');
 	});
 

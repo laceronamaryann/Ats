@@ -47,7 +47,7 @@ $('.company').append(
 	getNameStatus(company.Status) + "</td><td>" +
 	getNameUser(company.AddedBy) + "</td><td>" +
 	"<span style='display: inline-block'>" +
-	"<button id='"+ company.Id + "' class='buttonCompanyEdit'><span class='ui-icon ui-icon-pencil'></span></button>" +
+	"<button id='"+ company.Id + "' class='buttonCompanyUpdate'><span class='ui-icon ui-icon-pencil'></span></button>" +
 	"<button id='"+ company.Id + "' class='buttonCompanyDelete'><span class='ui-icon ui-icon-trash'></span></button>" +
 	"<button id='"+ company.Id + "' class='buttonCompanySettings'><span class='ui-icon ui-icon-gear'></span></button>" +
 	"</span>" +
@@ -56,11 +56,11 @@ $('.company').append(
 });
 // $('.button').button({text: false});
 // $('.button').css({"padding": "3px"});
-$('.buttonCompanyEdit').click(function () {
+$('.buttonCompanyUpdate').click(function () {
 	var id = this.id;
 	$.each(array,function( index, company ){
 		if (company.Id == id) {
-			dialogCompanyEdit(company);
+			dialogCompanyUpdate(company);
 		}
 	});
 });

@@ -1,7 +1,6 @@
 <?php
 include ('initialize.php');
 
-
 use Core\Server;
 use Core\Database;
 use Core\BusinessField;

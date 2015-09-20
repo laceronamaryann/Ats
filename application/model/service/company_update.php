@@ -8,15 +8,18 @@ use Core\BusinessField;
 use Core\Company;
 use Core\Result;
 
-$array = array();
+$array['result'] = array();
 $connection = null;
 
 try {
 	$company = new Company();
+	$company->Id = $_POST['Id'];
 	$company->Name = $_POST['Name'];
 	$company->Description = $_POST['Description'];
-	$company->AddedBy = $_POST['AddedBy'];
 	$company->BusinessField = $_POST['BusinessField'];
+	$company->Status = $_POST['Status'];
+
+	$modifiedBy = $_POST['ModifiedBy'];
 
 
 
@@ -34,28 +37,32 @@ try {
 	//-----------------------------------------------------------------------
 
 	$sql = "
-	INSERT INTO ats.company (company_name, company_description, company_added_by, company_datetime_created,company_status, company_business_field)
-	VALUES ('" . $company->Name . "','".$company->Description."'," . $company->AddedBy .",NOW(), 3 ,". $company->BusinessField .");";
+	UPDATE ats.company 
+	SET 
+	company_name='" . $company->Name . "',
+	company_description='". $company->Description . "',
+	company_status=" . $company->Status . ",
+	company_business_field=".  $company->BusinessField ."
+	
+	WHERE ats.company.id = " . $company->Id .";";
 
 	$query = $connection->prepare($sql);
 	
 
-	if ($query->execute()) {
-		$result = new Result(Result::SUCCESS,"Added new Company!");
-		array_push($array, $result);
-	} else {
-		$result = new Result(Result::FAILED,"Not saved!");
-		array_push($array, $result);
+	if (!$query->execute()) {
+		throw new Exception($company->Name ." has not been updated!", 1);
 	}
 
+	//-------------------------------------------------------------------
+	$result = new Result(Result::SUCCESS, $company->Name ." has been updated!");
+	array_push($array['result'], $result);
 } catch(PDOException $pdoException) {
 	$result = new Result(Result::FAILED, $pdoException->getMessage());
-	array_push($array, $result);
+	array_push($array['result'], $result);
 } catch(Exception $exception) {
 	$result = new Result(Result::FAILED, $exception->getMessage());
-	array_push($array, $result);
+	array_push($array['result'], $result);
 }
-
-echo json_encode($array);
 $connection = null;
+echo json_encode($array);
 ?>

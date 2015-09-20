@@ -30,20 +30,20 @@ function dialogCompanyAdd() {
 	});
 }
 
-function dialogCompanyEdit(company) {
-	$('#dialogCompanyEdit').remove();
-	$('body').append('<div id="dialogCompanyEdit"><script>var company = '+ JSON.stringify(company) + '</script></div>');
-	$.get('application/view/dynamic/company_edit.html', function( data ) {
-		$('#dialogCompanyEdit').html(data);
-		$('#dialogCompanyEdit').dialog({
-			title: "Edit Company",
+function dialogCompanyUpdate(company) {
+	$('#dialogCompanyUpdate').remove();
+	$('body').append('<div id="dialogCompanyUpdate"><script>var company = '+ JSON.stringify(company) + '</script></div>');
+	$.get('application/view/dynamic/company_update.html', function( data ) {
+		$('#dialogCompanyUpdate').html(data);
+		$('#dialogCompanyUpdate').dialog({
+			title: "Update Company",
 			show:  "fade",
 			hide: "fade",
 			height: "auto",
 			width: "auto",
 			object: company
 		});
-		$('#dialogCompanyEdit').dialog("open");
+		$('#dialogCompanyUpdate').dialog("open");
 	});
 }
 
@@ -69,7 +69,7 @@ function companyView() {
 	$('#tabControl #companyView').remove();
 	$('[href="#companyView"]').remove();
 	$('#tabControl').append("<div id='companyView'/>");
-	$.get('application/view/dynamic/company_all.html', function( data ) {
+	$.get('application/view/dynamic/company.html', function( data ) {
 		$('#tabControl #companyView').html(data);
 		$('#tabControl ul').append("<li><a href='#companyView'>Company</a></li>");
 		$('#tabControl').tabs("refresh");

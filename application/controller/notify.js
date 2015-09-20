@@ -45,5 +45,5 @@ function notifyError(message) {
 	$("#notify").show("drop");
 	setTimeout(function() {
 		$("#notify").hide("drop");
-	},3000);
+	},5000);
 }
