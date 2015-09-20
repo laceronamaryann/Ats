@@ -1,0 +1,94 @@
+<script type="text/javascript">
+	$('#progressbarLoading').css({
+		"background": '#0000FF'
+	});
+	$('#progressbarLoading').progressbar({
+		value : false
+	});
+	$('#progressbarLoading').hide();
+
+	$('#buttonLogin').button();
+	$('#buttonLogin').button().click(function() {
+		$('#progressbarLoading').show();
+		login();
+	});
+
+
+	function login() {
+		var username = $('#username').val();
+		var password = $('#password').val();
+		var rememberMe = $('#rememberMe').val();;
+
+		validate = new Validate();
+		if (validate.IsEmpty(username) || validate.IsEmpty(password)) {
+			notifyError("Some field(s) is/are empty.");
+			$('#progressbarLoading').hide();
+			return;
+		}
+
+		notify("Checking User...");
+
+		$.post('application/model/service/login_check.php', { Name : username, Password : password, RememberMe : rememberMe }, function(json){
+			$('#progressbarLoading').hide();
+			var result = json.result[0];
+			if (result.Status == "SUCCESS") {
+				location.reload();
+			} else {
+				notifyError(result.Message);
+			}
+
+		},'json');
+	}
+	
+	$("#password").keypress(function( event ) {
+		if ( event.which == 13 ) {
+			login();
+		}
+	});
+</script>
+
+<form id="formLogin">
+	<table>
+
+		<tr>
+			<td>Username</td>
+			<td><input type="text" id="username" placeholder="Username" ></td>
+		</tr>
+		<tr>
+			<td>Password</td>
+			<td><input type="password" id="password"  placeholder="Password" /></td>
+		</tr>
+		<tr>
+			<td>Remember</td>
+			<td><input type="checkbox" id="rememberMe"/></td>
+		</tr>
+		<tr>
+			<td colspan="2"><div id="buttonLogin">Login</div></td>
+		</tr>
+		<tr><td colspan="2"><div id="progressbarLoading"></div></td></tr>
+	</table>
+</form>
+
+
+<style type="text/css">
+	#formLogin {
+		margin: auto;
+		width: 100%;
+		font-size: 0.8em;
+	}
+	#formLogin table{
+		width: 100%;
+	}
+	#formLogin #buttonLogin {
+		width: 100%;
+	}
+	#formLogin #username {
+		width: 100%;
+	}
+	#formLogin #password {
+		width: 100%;
+	}
+	#formLogin td {
+		padding: 3px;
+	}
+</style>

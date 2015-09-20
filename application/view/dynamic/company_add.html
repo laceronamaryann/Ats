@@ -1,0 +1,83 @@
+<form>
+	<table>
+		<tr><td>Company Name</td><td><input type="text" name="companyName"></td></tr>
+		<tr><td>Company Description</td><td><input type="text" name="companyDescription"></td></tr>
+		<tr><td>Business Field</td><td><select name="companyBusinessField" id="companyBusinessField"></select></td></tr>
+		<tr><td colspan="2"><hr/></td></tr>
+		<tr><td>Address Name</td><td><input type="text" name="companyAddressName" ></input></td></tr>
+		<tr><td>Address Detail</td><td><input type="text" name="companyAddressDetail" ></input></td></tr>
+		<tr><td>Latitude</td><td><input type="text" name="companyAddressLatitude" disabled="true"></input></td></tr>
+		<tr><td>Longitude</td><td><input type="text" name="companyAddressLongitude" disabled="true"></input></td></tr>
+		<tr><td colspan="2"><hr/></td></tr>
+		 
+	</table>
+</form>
+
+<button id="buttonCompanyAdd" >Add</button>
+<div id="progressbarSaving"></div>
+
+
+<script type="text/javascript">
+	$('#dialogCompanyAdd #progressbarSaving').progressbar({value:false});
+	$('#dialogCompanyAdd #progressbarSaving').hide();
+
+	$('#dialogCompanyAdd [name=companyAddressDetail]').click(function(){
+		dialogGoogleSearchAddress();
+	});
+
+	$('#dialogCompanyAdd #buttonCompanyAdd').button().click(function() {
+		$('#dialogCompanyAdd #progressbarSaving').show();
+		var name = document.getElementsByName('companyName')[0].value;
+		var description = document.getElementsByName('companyDescription')[0].value;
+		var businessField = document.getElementsByName('companyBusinessField')[0].value;
+		//var user = JSON.parse(sessionStorage.getItem('user'));
+		var addedBy = user.Id;
+		
+		validate = new Validate();
+
+		if(validate.IsEmpty(name) || validate.IsEmpty(description)) {
+			notifyError("Some field(s) is/are empty.");
+			$('#progressbarSaving').hide();
+			return;
+		}
+
+		$.post('application/model/service/company_add.php',{Name:name,Description:description,BusinessField:businessField,AddedBy:addedBy}, function(json){
+			$('#dialogCompanyAdd #progressbarSaving').hide();
+			var result = json.result[0];
+			if (result.Status == "SUCCESS") {
+				notify(result.Message);
+			} else {
+				notifyError(result.Message);
+			}
+		}, 'json');
+	});
+
+	$.each(arrayGlobalBunessField, function(index,object){
+		$('#dialogCompanyAdd #companyBusinessField')
+		.append($("<option></option>")
+			.attr("value", object.Id)
+			.text(object.Name));
+	});                    
+</script>
+
+<style type="text/css">
+	form {
+		font-size: 0.8em;
+	}
+	form table{
+		width: 100%;
+	}
+	form input{
+		width: 100%;
+	}
+	form select {
+		width: 100%;
+	}
+	form div {
+		width: 100%;
+	}
+
+	#buttonCompanyAdd{
+		width: 100%;
+	}
+</style>

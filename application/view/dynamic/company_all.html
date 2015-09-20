@@ -1,0 +1,197 @@
+<div style="display:inline-blocked;padding:5px;"><button id="companyAdd">Add</button></div>
+
+<div class="datagrid">
+	<table class="company">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>Description</th>
+				<th>DateTime Created</th>
+				<th>Business Field</th>
+				<th>Status</th>
+				<th>Added By</th>
+				<th>Option</th>
+
+			</tr>
+		</thead>
+	</table>
+</div>
+
+<script type="text/javascript">
+	
+	$('#companyAdd').button({
+		icons: {
+			primary: "ui-icon-plusthick",
+			// secondary: "ui-icon-minusthick"
+		}
+	});
+
+	$('#companyAdd').button().click(function(){
+		dialogCompanyAdd();
+	});
+
+	var array = [];
+	$.post('application/model/service/company_all.php', function(json) {
+		var companies = json.company;
+		$.each(companies, function(index, company){
+			array.push(company);
+//"' class='"+ ((index%2)?"alt":"") +
+$('.company').append(
+	"<tbody><tr><td>" + 
+	company.Id + "</td><td>" + 
+	company.Name + "</td><td>" + 
+	company.Description + "</td><td>" + 
+	company.DateTimeCreated + "</td><td>" + 
+	getNameBusinessField(company.BusinessField) + "</td><td>" +
+	getNameStatus(company.Status) + "</td><td>" +
+	getNameUser(company.AddedBy) + "</td><td>" +
+	"<span style='display: inline-block'>" +
+	"<button id='"+ company.Id + "' class='buttonCompanyEdit'><span class='ui-icon ui-icon-pencil'></span></button>" +
+	"<button id='"+ company.Id + "' class='buttonCompanyDelete'><span class='ui-icon ui-icon-trash'></span></button>" +
+	"<button id='"+ company.Id + "' class='buttonCompanySettings'><span class='ui-icon ui-icon-gear'></span></button>" +
+	"</span>" +
+	"</td></tr></tbody>"
+	);
+});
+// $('.button').button({text: false});
+// $('.button').css({"padding": "3px"});
+$('.buttonCompanyEdit').click(function () {
+	var id = this.id;
+	$.each(array,function( index, company ){
+		if (company.Id == id) {
+			dialogCompanyEdit(company);
+		}
+	});
+});
+
+},'json');
+// $('.datagrid').on('click', 'tr', function() {
+// 	var id = this.id;
+// 	$.each(array,function( index, company ){
+// 		if (company.Id == id) {
+// 		}
+// 	//alert(company.Name);
+// });
+
+// $('.datagrid').on('dblclick', 'tr', function() {
+// 	var id = this.id;
+// 	$.each(array,function( index, company ){
+// 		if (company.Id == id) {
+// 			dialogCompanyEdit(company);
+// 		}
+// 	});
+// }); 
+
+</script>
+
+
+<style type="text/css">
+	.objectgrid table {
+		margin: 0px;
+	}
+	tr:hover{ 
+		background: #EEEEEE; 
+	}
+	/*================================================*/
+	.objectgrid table {
+		border-collapse: collapse;
+		text-align: left;
+		width: 100%;
+	}
+	.objectgrid {
+		font: normal 12px/150% Arial, Helvetica, sans-serif;
+		background: #fff;
+		overflow: hidden;
+		border: 1px solid #006699;
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		border-radius: 3px;
+	}
+	.objectgrid table td,
+	.objectgrid table th {
+		padding: 3px 10px;
+	}
+	.objectgrid table thead th {
+		background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, #66BBFF), color-stop(1, #2288EE));
+		background: -moz-linear-gradient( center top, #66BBFF 5%, #2288EE 100%);
+		filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#66BBFF', endColorstr='#2288EE');
+		background-color: #66BBFF;
+		color: #FFFFFF;
+		font-size: 12px;
+		font-weight: bold;
+		border-left: 1px solid #0070A8;
+	}
+
+	.objectgrid table thead th:first-child {
+		border: none;
+	}
+	.objectgrid table tbody td {
+		color: #0066BB;
+		font-size: 11px;
+		font-weight: normal;
+	}
+	.objectgrid table tbody .alt td {
+		background: #D8EEFF;
+		color: #0033AA;
+	}
+	.objectgrid table tbody td:first-child {
+		border-left: none;
+	}
+	.objectgrid table tbody tr:last-child td {
+		border-bottom: none;
+	}
+	.datagrid {
+		margin: 5px;
+	}
+	.datagrid table {
+		border-collapse: collapse;
+		text-align: left;
+		width: 100%;
+	}
+	.datagrid {
+		font: normal 12px/150% Arial, Helvetica, sans-serif;
+		background: #fff;
+		overflow: hidden;
+		border: 1px solid #006699;
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		border-radius: 3px;
+	}
+	.datagrid table td,
+	.datagrid table th {
+		padding: 3px 10px;
+	}
+	.datagrid table thead th {
+		background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, #66BBFF), color-stop(1, #2288EE));
+		background: -moz-linear-gradient( center top, #66BBFF 5%, #2288EE 100%);
+		filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#66BBFF', endColorstr='#2288EE');
+		background-color: #66BBFF;
+		color: #FFFFFF;
+		font-size: 12px;
+		font-weight: bold;
+		border-left: 1px solid #0070A8;
+	}
+	.datagrid table thead th:first-child {
+		border: none;
+	}
+	.datagrid table tbody td {
+		color: #0066BB;
+		font-size: 11px;
+		font-weight: normal;
+	}
+	.datagrid table tbody .alt td {
+		background: #D8EEFF;
+		color: #0033AA;
+	}
+	.datagrid table tbody td:first-child {
+		border-left: none;
+	}
+	.datagrid table tbody tr:last-child td {
+		border-bottom: none;
+	}
+
+	.companyEdit {
+
+	}
+</style>

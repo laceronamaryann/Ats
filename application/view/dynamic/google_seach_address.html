@@ -1,0 +1,54 @@
+<div id="map"></div>
+<!-- <script src="http://maps.googleapis.com/maps/api/js"></script> -->
+<script type="text/javascript">
+	var map;
+
+	var latitude = '25.3000';
+	var longitude = '51.5167';
+	var coordinate = new google.maps.LatLng(latitude, longitude);
+
+	var marker = new google.maps.Marker({
+	        map: map,
+	        draggable:true
+	});
+
+
+	function initialize() {
+		var mapProp = {
+			center: coordinate,
+			zoom: 10,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		map = new google.maps.Map(document.getElementById("map"), mapProp);
+		
+
+		google.maps.event.addListener(map, 'click', function(event) {
+
+			var parameter = event.latLng.lat() + "," + event.latLng.lng();
+			$.get("https://maps.googleapis.com/maps/api/geocode/json",{latlng:parameter}, function(json) {
+				var address = (json.results[0].formatted_address);
+			
+				$('#dialogCompanyAdd [name="companyAddressDetail"]').val(address);
+				$('#dialogCompanyAdd [name="companyAddressLatitude"]').val(event.latLng.lat());
+				$('#dialogCompanyAdd [name="companyAddressLongitude"]').val( event.latLng.lng());
+			},'json');
+
+
+			var location = new google.maps.LatLng(event.latLng.lat(), event.latLng.lng());
+			marker.setPosition(location);
+			marker.setMap(null);
+			marker.setMap(map);
+		});
+	}
+
+	//google.maps.event.addDomListener(window, 'load', initialize);
+	initialize();
+</script>
+
+<style type="text/css">
+	#map {
+		position: absolute;
+		height: 96%;
+		width: 96%;
+	}
+</style>
