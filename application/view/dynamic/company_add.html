@@ -34,9 +34,6 @@
 		var addressDetail = $('[name="companyAddressDetail"').val();
 		var addressLatitude = $('[name="companyAddressLatitude"').val();
 		var addressLongitude = $('[name="companyAddressLongitude"').val();
-
-
-		var addedBy = user.Id;
 		
 		validate = new Validate();
 
@@ -45,12 +42,11 @@
 			return;
 		}
 
-		$.post('application/model/service/company_add.php',{Name:name,Description:description,BusinessField:businessField,AddedBy:addedBy}, function(json){
+		$.post('application/model/service/company_add.php',{Name:name,Description:description,BusinessField:businessField}, function(json){
 			var result = json.result[0];
 			if (result.Status == "SUCCESS") {
 				notify(result.Message);
-
-				alert(JSON.stringify(json));
+				var company = json.company[0];
 			} else {
 				notifyError(result.Message);
 			}

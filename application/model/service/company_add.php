@@ -6,6 +6,8 @@ use Core\Database;
 use Core\BusinessField;
 use Core\Company;
 use Core\Result;
+use Core\User;
+
 
 $array['result'] = array();
 $array['company'] = array();
@@ -19,16 +21,14 @@ try {
 		throw new Exception("Name is not set.", 1);
 	if (!isset($_POST['Description']))
 		throw new Exception("Description is not set.", 1);
-	if (!isset($_POST['AddedBy']))
-		throw new Exception("AddedBy is not set.", 1);
 	if (!isset($_POST['BusinessField']))
 		throw new Exception("BusinessField is not set.", 1);
 
 	$company->Name = $_POST['Name'];
 	$company->Description = $_POST['Description'];
-	$company->AddedBy = $_POST['AddedBy'];
+	$company->AddedBy = $_SESSION['user']->Id;
 	$company->BusinessField = $_POST['BusinessField'];
-
+	$company->Status = 3;
 
 
 	if ($server->Type == Server::MSSQL) {
@@ -39,62 +39,26 @@ try {
 	}else{
 		$connection = new PDO("sqlite:my/database/path/database.db");
 	}
-	$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-	//-----------------------------------------------------------------------
-	/*Query 1*/
+	//-------------------------------------------------------------------
+
 	$sql = "
-	INSERT INTO ats.company (
-		ats.company.company_name, 
-		ats.company.company_description, 
-		ats.company.company_added_by, 
-		ats.company.company_datetime_created,
-		ats.company.company_status, 
-		ats.company.company_business_field)
+		CALL ats.company_insert('" . 
+		$company->Name . "','". 
+		$company->Description . "'," . 
+		$company->Status .",". 
+		$company->BusinessField .",". 
+		$company->AddedBy .");";
 
-VALUES ('" . $company->Name . "','". $company->Description . "'," . $company->AddedBy .",NOW(), 3 ,". $company->BusinessField .");";
+	$query = $connection->prepare($sql);
 
-$query = $connection->prepare($sql);
+	if (!$query->execute()) {
+		throw new Exception($company->Name . " not added!", 1);
+	}
 
-	 	// throw new Exception($sql);
+	//-------------------------------------------------------------------
 
-if (!$query->execute()) {
-	throw new Exception($company->Name . " not added!", 1);
-}
-
-
-/*Query 2*/
-$query = $connection->prepare('
-	SELECT
-	ats.company.id,
-	ats.company.company_name,
-	ats.company.company_description,
-	ats.company.company_datetime_created,
-	ats.company.company_business_field,
-	ats.company.company_status,
-	ats.company.company_added_by
-
-	FROM ats.company
-
-	WHERE
-	ats.company.id = '. $connection->lastInsertId() .'
-	');
-
-$query->execute();
-
-$row = $query->fetch(PDO::FETCH_BOTH);
-$company = new Company();
-$company->Id = $row['id']; 
-$company->Name = $row['company_name']; 
-$company->Description =	$row['company_description'];
-$company->DateTimeCreated = $row['company_datetime_created'];
-$company->BusinessField = $row['company_business_field'];
-$company->Status = $row['company_status'];
-$company->AddedBy = $row['company_added_by']; 
-
-array_push($array['company'], $company);
-//-------------------------------------------------------------------
 $result = new Result(Result::SUCCESS,"Added new Company!");
 array_push($array['result'], $result);
 } catch(PDOException $pdoException) {

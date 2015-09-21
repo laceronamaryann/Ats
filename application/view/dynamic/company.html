@@ -1,4 +1,7 @@
-<div style="display:inline-blocked;padding:5px;"><button id="companyAddNew">Add</button></div>
+<div style="display:inline-blocked;padding:5px;">
+	<button id="companyAddNew">Add</button>
+	<button id="companyResfresh">Refresh</button>
+</div>
 
 <div class="datagrid">
 	<table class="company">
@@ -12,60 +15,69 @@
 				<th>Status</th>
 				<th>Added By</th>
 				<th>Option</th>
-
 			</tr>
 		</thead>
 	</table>
 </div>
 
 <script type="text/javascript">
-	
 	$('#companyAddNew').button({
 		icons: {
 			primary: "ui-icon-plusthick",
-			// secondary: "ui-icon-minusthick"
 		}
 	});
-
 	$('#companyAddNew').button().click(function(){
 		dialogCompanyAdd();
 	});
-
-	var array = [];
-	$.post('application/model/service/company_all.php', function(json) {
-		var companies = json.company;
-		$.each(companies, function(index, company){
-			array.push(company);
-//"' class='"+ ((index%2)?"alt":"") +
-$('.company').append(
-	"<tbody><tr><td>" + 
-	company.Id + "</td><td>" + 
-	company.Name + "</td><td>" + 
-	company.Description + "</td><td>" + 
-	company.DateTimeCreated + "</td><td>" + 
-	getNameBusinessField(company.BusinessField) + "</td><td>" +
-	getNameStatus(company.Status) + "</td><td>" +
-	getNameUser(company.AddedBy) + "</td><td>" +
-	"<span style='display: inline-block'>" +
-	"<button id='"+ company.Id + "' class='buttonCompanyUpdate'><span class='ui-icon ui-icon-pencil'></span></button>" +
-	"<button id='"+ company.Id + "' class='buttonCompanyDelete'><span class='ui-icon ui-icon-trash'></span></button>" +
-	"<button id='"+ company.Id + "' class='buttonCompanySettings'><span class='ui-icon ui-icon-gear'></span></button>" +
-	"</span>" +
-	"</td></tr></tbody>"
-	);
-});
-// $('.button').button({text: false});
-// $('.button').css({"padding": "3px"});
-$('.buttonCompanyUpdate').click(function () {
-	var id = this.id;
-	$.each(array,function( index, company ){
-		if (company.Id == id) {
-			dialogCompanyUpdate(company);
+	$('#companyResfresh').button({
+		icons: {
+			primary: "ui-icon-refresh",
 		}
 	});
-});
 
-},'json');
+	$('#companyResfresh').button().click(function(){
+		loadCompany();
+	});
+
+
+
+	function loadCompany() {
+		var array = [];
+		$.post('application/model/service/company_all.php', function(json) {
+			$('.company tbody').remove();
+			var companies = json.company;
+			$.each(companies, function(index, company){
+				array.push(company);
+				//"' class='"+ ((index%2)?"alt":"") +
+				$('.company').append(
+					"<tbody><tr><td>" + 
+					company.Id + "</td><td>" + 
+					company.Name + "</td><td>" + 
+					company.Description + "</td><td>" + 
+					company.DateTimeCreated + "</td><td>" + 
+					getNameBusinessField(company.BusinessField) + "</td><td>" +
+					getNameStatus(company.Status) + "</td><td>" +
+					getNameUser(company.AddedBy) + "</td><td>" +
+					"<span style='display: inline-block'>" +
+					"<button id='"+ company.Id + "' class='buttonCompanyUpdate'><span class='ui-icon ui-icon-pencil'></span></button>" +
+					"<button id='"+ company.Id + "' class='buttonCompanyDelete'><span class='ui-icon ui-icon-trash'></span></button>" +
+					"<button id='"+ company.Id + "' class='buttonCompanySettings'><span class='ui-icon ui-icon-gear'></span></button>" +
+					"</span>" +
+					"</td></tr></tbody>"
+				);
+			});
+			$('.buttonCompanyUpdate').click(function () {
+				var id = this.id;
+				$.each(array,function( index, company ){
+					if (company.Id == id) {
+						dialogCompanyUpdate(company);
+					}
+				});
+			});
+		},'json');
+	}
+
+	loadCompany();	
 // $('.datagrid').on('click', 'tr', function() {
 // 	var id = this.id;
 // 	$.each(array,function( index, company ){
@@ -82,7 +94,6 @@ $('.buttonCompanyUpdate').click(function () {
 // 		}
 // 	});
 // }); 
-
 </script>
 
 

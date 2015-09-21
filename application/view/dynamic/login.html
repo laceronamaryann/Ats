@@ -28,7 +28,7 @@
 
 		notify("Checking User...");
 
-		$.post('application/model/service/login_check.php', { Name : username, Password : password, RememberMe : rememberMe }, function(json){
+		$.post('application/model/service/login.php', { Name : username, Password : password, RememberMe : rememberMe }, function(json){
 			$('#progressbarLoading').hide();
 			var result = json.result[0];
 			if (result.Status == "SUCCESS") {
@@ -49,7 +49,6 @@
 
 <form id="formLogin">
 	<table>
-
 		<tr>
 			<td>Username</td>
 			<td><input type="text" id="username" placeholder="Username" ></td>

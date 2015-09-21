@@ -1,0 +1,27 @@
+<table>
+	<tr><td><p>Are you sure you want to logout?</p></td></tr>
+	<tr><td><button id="buttonLogoutYes">Yes</button></td></tr>
+</table>
+
+<script type="text/javascript">
+	$('#buttonLogoutYes').button().click(function() {
+		logout();
+	});
+
+	function logout() {
+		$.post('application/model/service/logout.php', function(json){
+			var result = json.result[0];
+			if (result.Status == "SUCCESS") {
+				location.reload();
+			} else {
+				notifyError(result.Message);
+			}
+		},'json');
+	}
+
+</script>
+<style type="text/css">
+	#buttonLogoutYes {
+		width:100%;
+	}
+</style>

@@ -13,7 +13,21 @@ function dialogLogin() {
 		$('#dialog').dialog("open");
 	});
 }
-
+function dialogLogout() {
+	$('#dialog').remove();
+	$('body').append('<div id="dialog"></div>');
+	$.get('application/view/dynamic/logout.html', function( data ) {
+		$('#dialog').html(data);
+		$('#dialog').dialog({
+			title: "Logout",
+			show:  "fade",
+			hide: "fade",
+			height: "auto",
+			width: "auto"
+		});
+		$('#dialog').dialog("open");
+	});
+}
 function dialogCompanyAdd() {
 	$('#dialog').remove();
 	$('body').append('<div id="dialog"></div>');

@@ -13,7 +13,7 @@ use Core\Server;
 use Core\Database;
 
 $server = new Server("184.107.179.178","rhalfs server",Server::MYSQL);
-$database = new Database("ats","atstest", "");
+$database = new Database("ats","atstest", "ats");
 
 session_start();
 

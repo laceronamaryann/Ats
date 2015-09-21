@@ -30,8 +30,8 @@
 	$('#salesCompany').click(function() {
 		companyView();	
 	});
-	$('#companyAddBusinessField').click(function() {
-		dialogCompanyAddBusinessField();		
+	$('#userLogout').click(function() {
+		dialogLogout();		
 	});
 
 
