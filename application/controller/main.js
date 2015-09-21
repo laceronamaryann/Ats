@@ -9,13 +9,11 @@ var arrayGlobalBunessField = new Array();
 var arrayGlobalStatus = new Array();
 
 
-
 $.post('application/model/service/businessfield_all.php', function(data) {
 	arrayGlobalBunessField.length = 0;
 	$.each(data.businessfield, function(index,object){
 		arrayGlobalBunessField.push(object);
 	});
-	//alert(JSON.stringify(arrayGlobalBunessField));
 },'json');
 
 $.post('application/model/service/status_all.php', function(data) {
@@ -23,7 +21,6 @@ $.post('application/model/service/status_all.php', function(data) {
 	$.each(data.status, function(index,object){
 		arrayGlobalStatus.push(object);
 	});                    
-	//alert(JSON.stringify(arrayGlobalStatus));
 },'json');
 
 $.post('application/model/service/user_all.php', function(data) {
@@ -31,7 +28,6 @@ $.post('application/model/service/user_all.php', function(data) {
 	$.each(data.user, function(index,object){
 		arrayGlobalUser.push(object);
 	});                    
-	//alert(JSON.stringify(arrayGlobalStatus));
 },'json');
 
 $.post('application/model/service/status_all.php', function(data) {
@@ -39,7 +35,6 @@ $.post('application/model/service/status_all.php', function(data) {
 	$.each(data.status, function(index,object){
 		arrayGlobalStatus.push(object);
 	});                    
-	//alert(JSON.stringify(arrayGlobalStatus));
 },'json');
 
 
@@ -77,15 +72,6 @@ function getNameStatus(id) {
 		}
 	}
 }
-
-
-
-//------------------------------------------------------------------------
-// $('.button').button();
-// $('.dialog').dialog();
-// $('.menu').menu();
-// $('.progressbar').progressbar();
-
 
 
 function Validate() {

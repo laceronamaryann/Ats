@@ -3,9 +3,6 @@
 	use Core\Database;
 	use Core\User;
 
-	$server = new Server("184.107.179.178","rhalfs server",Server::MYSQL);
-	$database = new Database("rhalf","trivalassasin8", "");
-
 	$_SESSION['server'] = $server;
 	$_SESSION['database'] = $database;
 	

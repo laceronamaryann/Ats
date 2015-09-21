@@ -1,41 +1,41 @@
 function dialogLogin() {
-	$('#dialogLogin').remove();
-	$('body').append('<div id="dialogLogin"></div>');
+	$('#dialog').remove();
+	$('body').append('<div id="dialog"></div>');
 	$.get('application/view/dynamic/login.html', function( data ) {
-		$('#dialogLogin').html(data);
-		$('#dialogLogin').dialog({
+		$('#dialog').html(data);
+		$('#dialog').dialog({
 			title: "Login",
 			show:  "fade",
 			hide: "fade",
 			height: "auto",
 			width: "auto"
 		});
-		$('#dialogLogin').dialog("open");
+		$('#dialog').dialog("open");
 	});
 }
 
 function dialogCompanyAdd() {
-	$('#dialogCompanyAdd').remove();
-	$('body').append('<div id="dialogCompanyAdd"></div>');
+	$('#dialog').remove();
+	$('body').append('<div id="dialog"></div>');
 	$.get('application/view/dynamic/company_add.html', function( data ) {
-		$('#dialogCompanyAdd').html(data);
-		$('#dialogCompanyAdd').dialog({
+		$('#dialog').html(data);
+		$('#dialog').dialog({
 			title: "Add Company",
 			show:  "fade",
 			hide: "fade",
 			height: "auto",
 			width: "auto"
 		});
-		$('#dialogCompanyAdd').dialog("open");
+		$('#dialog').dialog("open");
 	});
 }
 
 function dialogCompanyUpdate(company) {
-	$('#dialogCompanyUpdate').remove();
-	$('body').append('<div id="dialogCompanyUpdate"><script>var company = '+ JSON.stringify(company) + '</script></div>');
+	$('#dialog').remove();
+	$('body').append('<div id="dialog"><script>var company = '+ JSON.stringify(company) + '</script></div>');
 	$.get('application/view/dynamic/company_update.html', function( data ) {
-		$('#dialogCompanyUpdate').html(data);
-		$('#dialogCompanyUpdate').dialog({
+		$('#dialog').html(data);
+		$('#dialog').dialog({
 			title: "Update Company",
 			show:  "fade",
 			hide: "fade",
@@ -43,7 +43,7 @@ function dialogCompanyUpdate(company) {
 			width: "auto",
 			object: company
 		});
-		$('#dialogCompanyUpdate').dialog("open");
+		$('#dialog').dialog("open");
 	});
 }
 

@@ -45,15 +45,18 @@ try {
 	//-----------------------------------------------------------------------
 	/*Query 1*/
 	$sql = "
-	INSERT INTO ats.company (
-		ats.company.company_name, 
-		ats.company.company_description, 
-		ats.company.company_added_by, 
-		ats.company.company_datetime_created,
-		ats.company.company_status, 
-		ats.company.company_business_field)
+	INSERT INTO ats.company_adress (
+		ats.company_adress.company_adress_name, 
+		ats.company_adress.company_adress_latitude, 
+		ats.company_adress.company_adress_longitude, 
+		ats.company_adress.company_adress_company,
+		ats.company_adress.company_adress_detail)
 
-VALUES ('" . $company->Name . "','". $company->Description . "'," . $company->AddedBy .",NOW(), 3 ,". $company->BusinessField .");";
+VALUES ('" . 
+	$company->Name . "','". 
+	$company->Description . "','" . 
+	$company->AddedBy ."','". 
+	$company->BusinessField ."');";
 
 $query = $connection->prepare($sql);
 
@@ -64,36 +67,36 @@ if (!$query->execute()) {
 }
 
 
-/*Query 2*/
-$query = $connection->prepare('
-	SELECT
-	ats.company.id,
-	ats.company.company_name,
-	ats.company.company_description,
-	ats.company.company_datetime_created,
-	ats.company.company_business_field,
-	ats.company.company_status,
-	ats.company.company_added_by
+// /*Query 2*/
+// $query = $connection->prepare('
+// 	SELECT
+// 	ats.company.id,
+// 	ats.company.company_name,
+// 	ats.company.company_description,
+// 	ats.company.company_datetime_created,
+// 	ats.company.company_business_field,
+// 	ats.company.company_status,
+// 	ats.company.company_added_by
 
-	FROM ats.company
+// 	FROM ats.company
 
-	WHERE
-	ats.company.id = '. $connection->lastInsertId() .'
-	');
+// 	WHERE
+// 	ats.company.id = '. $connection->lastInsertId() .'
+// 	');
 
-$query->execute();
+// $query->execute();
 
-$row = $query->fetch(PDO::FETCH_BOTH);
-$company = new Company();
-$company->Id = $row['id']; 
-$company->Name = $row['company_name']; 
-$company->Description =	$row['company_description'];
-$company->DateTimeCreated = $row['company_datetime_created'];
-$company->BusinessField = $row['company_business_field'];
-$company->Status = $row['company_status'];
-$company->AddedBy = $row['company_added_by']; 
+// $row = $query->fetch(PDO::FETCH_BOTH);
+// $company = new Company();
+// $company->Id = $row['id']; 
+// $company->Name = $row['company_name']; 
+// $company->Description =	$row['company_description'];
+// $company->DateTimeCreated = $row['company_datetime_created'];
+// $company->BusinessField = $row['company_business_field'];
+// $company->Status = $row['company_status'];
+// $company->AddedBy = $row['company_added_by']; 
 
-array_push($array['company'], $company);
+// array_push($array['company'], $company);
 //-------------------------------------------------------------------
 $result = new Result(Result::SUCCESS,"Added new Company!");
 array_push($array['result'], $result);

@@ -28,9 +28,9 @@
 			$.get("https://maps.googleapis.com/maps/api/geocode/json",{latlng:parameter}, function(json) {
 				var address = (json.results[0].formatted_address);
 			
-				$('#dialogCompanyAdd [name="companyAddressDetail"]').val(address);
-				$('#dialogCompanyAdd [name="companyAddressLatitude"]').val(event.latLng.lat());
-				$('#dialogCompanyAdd [name="companyAddressLongitude"]').val( event.latLng.lng());
+				$('[name="companyAddressDetail"]').val(address);
+				$('[name="companyAddressLatitude"]').val(event.latLng.lat());
+				$('[name="companyAddressLongitude"]').val( event.latLng.lng());
 			},'json');
 
 

@@ -1,4 +1,4 @@
-<div style="display:inline-blocked;padding:5px;"><button id="companyAdd">Add</button></div>
+<div style="display:inline-blocked;padding:5px;"><button id="companyAddNew">Add</button></div>
 
 <div class="datagrid">
 	<table class="company">
@@ -20,14 +20,14 @@
 
 <script type="text/javascript">
 	
-	$('#companyAdd').button({
+	$('#companyAddNew').button({
 		icons: {
 			primary: "ui-icon-plusthick",
 			// secondary: "ui-icon-minusthick"
 		}
 	});
 
-	$('#companyAdd').button().click(function(){
+	$('#companyAddNew').button().click(function(){
 		dialogCompanyAdd();
 	});
 
@@ -87,6 +87,14 @@ $('.buttonCompanyUpdate').click(function () {
 
 
 <style type="text/css">
+/*	.objectgrid table thead {
+		position: flex;
+
+	}
+	.objectgrid table tbody {
+		overflow-y: scroll;
+
+	}*/
 	.objectgrid table {
 		margin: 0px;
 	}

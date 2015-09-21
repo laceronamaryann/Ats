@@ -1,3 +1,3 @@
 <?php
-	echo "layoutFooter";
+	//echo "layoutFooter";
 ?>

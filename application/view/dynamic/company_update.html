@@ -3,10 +3,10 @@
 		<tr><td></td><td><input type="hidden" name="companyId"></td></tr>
 		<tr><td>Company Name</td><td><input type="text" name="companyName"></td></tr>
 		<tr><td>Company Description</td><td><input type="text" name="companyDescription"></td></tr>
-		<tr><td>Business Field</td><td><select name="companyBusinessField" id="companyBusinessField"></select></td></tr>
+		<tr><td>Business Field</td><td><select name="companyBusinessField" ></select></td></tr>
 		<tr><td>DateTime Created</td><td><input type="datetimepicker" name="companyDateTimeCreated"></td></tr>
-		<tr><td>Enabled</td><td><select name="companyStatus" id="companyStatus"></select></td></tr>
-		<tr><td>Added By</td><td><input name="companyAddedBy" id="companyAddedBy"></select></td></tr>
+		<tr><td>Enabled</td><td><select name="companyStatus"></select></td></tr>
+		<tr><td>Added By</td><td><input name="companyAddedBy"></select></td></tr>
 
 		<tr><td colspan="2"><div id="companyUpdateButton">Update</div></td></tr>
 	</table>
@@ -26,21 +26,17 @@
 
 <script type="text/javascript">	
 	$.each(arrayGlobalBunessField, function(index,object){
-		$('#companyBusinessField')
-		.append($("<option></option>")
-			.attr("value", object.Id)
-			.text(object.Name));
+		$('[name="companyBusinessField"]').append("<option value='"+ object.Id +"'>"+ object.Name +"</option>");
 	});      
 	$.each(arrayGlobalStatus, function(index,object){
-		$('#companyStatus')
-		.append("<option value='"+ object.Id +"'>"+ object.Name +"</option>");
+		$('[name="companyStatus"]').append("<option value='"+ object.Id +"'>"+ object.Name +"</option>");
 	});  
 
 	$('[name="companyId"]').val(company.Id);
 	$('[name="companyName"]').val(company.Name);
 	$('[name="companyDescription"]').val(company.Description);
 
-	$('[name="companyBusinessField"] option').val(company.BusinessField).attr('selected','selected');
+	$('[name="companyBusinessField"] option[value="'+company.BusinessField+'"]').attr('selected','selected');
 	$('[name="companyStatus"] option[value="'+ company.Status +'"]').attr('selected','selected');
  
 
