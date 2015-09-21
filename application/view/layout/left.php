@@ -2,7 +2,7 @@
 	<div id="accordion-sales">Sales</div>
 	<ul id="menuSales">
 		<li id="salesCompany">Company</li>
-		<li id="salesCompanyActivities">User Activities</li>
+		<li id="salesCompanyLogs">User Activities</li>
 	</ul>
 	<div id="accordion-options">Options</div>
 	<ul id="menuOptions">
@@ -23,8 +23,8 @@
 	$('#menuSales').menu();
 	$('#menuOptions').menu();
 
-	$('#salesCompanyActivities').click(function() {
-		companyActivities();	
+	$('#salesCompanyLogs').click(function() {
+		companyLogs();	
 	});
 
 	$('#salesCompany').click(function() {

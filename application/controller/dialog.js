@@ -78,7 +78,6 @@ function dialogGoogleSearchAddress(company) {
 	});
 }
 
-
 function companyView() {
 	$('#tabControl #companyView').remove();
 	$('[href="#companyView"]').remove();
@@ -91,13 +90,13 @@ function companyView() {
 	});
 }
 
-function companyActivities() {
-	$('#tabControl #companyActivities').remove();
-	$('[href="#companyActivities"]').remove();
-	$('#tabControl').append("<div id='companyActivities'/>");
-	$.get('application/view/dynamic/company_activities.html', function( data ) {
-		$('#tabControl #companyActivities').html(data);
-		$('#tabControl ul').append("<li><a href='#companyActivities'>Activities</a></li>");
+function companyLogs() {
+	$('#tabControl #companyLogs').remove();
+	$('[href="#companyLogs"]').remove();
+	$('#tabControl').append("<div id='companyLogs'/>");
+	$.get('application/view/dynamic/company_logs.html', function( data ) {
+		$('#tabControl #companyLogs').html(data);
+		$('#tabControl ul').append("<li><a href='#companyLogs'>Activities</a></li>");
 		$('#tabControl').tabs("refresh");
 		$('#tabControl').tabs({collapsible:false});
 	});

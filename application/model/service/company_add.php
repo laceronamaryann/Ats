@@ -56,7 +56,6 @@ try {
 	if (!$query->execute()) {
 		throw new Exception($company->Name . " not added!", 1);
 	}
-
 	//-------------------------------------------------------------------
 
 $result = new Result(Result::SUCCESS,"Added new Company!");

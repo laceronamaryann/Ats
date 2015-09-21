@@ -9,6 +9,13 @@ include($root . '/application/model/class/company.php');
 include($root . '/application/model/class/status.php');
 include($root . '/application/model/class/result.php');
 
+include($root . '/application/model/class/clientresponse.php');
+include($root . '/application/model/class/companyaddress.php');
+include($root . '/application/model/class/contact.php');
+include($root . '/application/model/class/contacttype.php');
+include($root . '/application/model/class/privilege.php');
+include($root . '/application/model/class/productdescription.php');
+
 use Core\Server;
 use Core\Database;
 
